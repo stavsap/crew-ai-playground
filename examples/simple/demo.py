@@ -1,5 +1,7 @@
 import os
 from crewai import Agent, Task, Crew
+from langchain_community.llms.ollama import Ollama
+from langchain.tools import DuckDuckGoSearchRun
 
 os.environ["OPENAI_API_KEY"] = "YOUR KEY"
 
@@ -9,12 +11,12 @@ os.environ["OPENAI_API_BASE"] = "http://127.0.0.1:5000/v1"
 # You can choose to use a local model through Ollama for example.
 #
 # from langchain.llms import Ollama
-# ollama_llm = Ollama(model="openhermes")
+#ollama_llm = Ollama(model="openhermes")
 
 # Install duckduckgo-search for this example:
 # !pip install -U duckduckgo-search
 
-from langchain.tools import DuckDuckGoSearchRun
+
 search_tool = DuckDuckGoSearchRun()
 
 # Define your agents with roles and goals
@@ -27,13 +29,13 @@ researcher = Agent(
   actionable insights.""",
   verbose=True,
   allow_delegation=False,
-  tools=[search_tool]
+  tools=[search_tool],
   # You can pass an optional llm attribute specifying what mode you wanna use.
   # It can be a local model through Ollama / LM Studio or a remote
   # model like OpenAI, Mistral, Antrophic of others (https://python.langchain.com/docs/integrations/llms/)
   #
   # Examples:
-  # llm=ollama_llm # was defined above in the file
+  #llm=ollama_llm
   # llm=ChatOpenAI(model_name="gpt-3.5", temperature=0.7)
 )
 writer = Agent(
@@ -44,7 +46,7 @@ writer = Agent(
   You transform complex concepts into compelling narratives.""",
   verbose=True,
   allow_delegation=True,
-  # (optional) llm=ollama_llm
+  # llm=ollama_llm
 )
 
 # Create tasks for your agents
