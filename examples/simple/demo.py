@@ -1,7 +1,10 @@
 import os
-from crewai import Agent, Task, Crew, Process
+from crewai import Agent, Task, Crew
 
 os.environ["OPENAI_API_KEY"] = "YOUR KEY"
+
+# Use Open AI api driver to integrate with any openai api compliant (such as text-gen etc..)
+os.environ["OPENAI_API_BASE"] = "http://127.0.0.1:5000/v1"
 
 # You can choose to use a local model through Ollama for example.
 #
