@@ -3,19 +3,12 @@ from crewai import Agent, Task, Crew
 from langchain_community.llms.ollama import Ollama
 from langchain.tools import DuckDuckGoSearchRun
 
-os.environ["OPENAI_API_KEY"] = "YOUR KEY"
+# os.environ["OPENAI_API_KEY"] = "YOUR KEY"
 
 # Use Open AI api driver to integrate with any openai api compliant (such as text-gen etc..)
 os.environ["OPENAI_API_BASE"] = "http://127.0.0.1:5000/v1"
 
-# You can choose to use a local model through Ollama for example.
-#
-# from langchain.llms import Ollama
 #ollama_llm = Ollama(model="openhermes")
-
-# Install duckduckgo-search for this example:
-# !pip install -U duckduckgo-search
-
 
 search_tool = DuckDuckGoSearchRun()
 
