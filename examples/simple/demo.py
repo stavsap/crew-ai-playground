@@ -1,14 +1,15 @@
 import os
 from crewai import Agent, Task, Crew
 from langchain_community.llms.ollama import Ollama
-from langchain.tools import DuckDuckGoSearchRun
+from langchain_community.tools import DuckDuckGoSearchRun
+from langchain_community.tools import DuckDuckGoSearchResults
 
-# os.environ["OPENAI_API_KEY"] = "YOUR KEY"
+os.environ["OPENAI_API_KEY"] = "YOUR KEY"
 
 # Use Open AI api driver to integrate with any openai api compliant (such as text-gen etc..)
 os.environ["OPENAI_API_BASE"] = "http://127.0.0.1:5000/v1"
 
-#ollama_llm = Ollama(model="openhermes")
+ollama_llm = Ollama(model="llama2:13b-text-q8_0")
 
 search_tool = DuckDuckGoSearchRun()
 
@@ -28,7 +29,7 @@ researcher = Agent(
   # model like OpenAI, Mistral, Antrophic of others (https://python.langchain.com/docs/integrations/llms/)
   #
   # Examples:
-  #llm=ollama_llm
+  llm=ollama_llm
   # llm=ChatOpenAI(model_name="gpt-3.5", temperature=0.7)
 )
 writer = Agent(
@@ -39,7 +40,7 @@ writer = Agent(
   You transform complex concepts into compelling narratives.""",
   verbose=True,
   allow_delegation=True,
-  # llm=ollama_llm
+  llm=ollama_llm
 )
 
 # Create tasks for your agents
