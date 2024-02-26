@@ -23,11 +23,11 @@ Run text with api flag.
 Run Ollama Locally
 
 ```shell
-docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
+docker run -d --rm --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama:0.1.27
 ```
 
 Load a model
 
 ```shell
-docker exec -it ollama ollama run openhermes
+docker exec -it ollama ollama run gemma:7b
 ```
