@@ -9,7 +9,7 @@ os.environ["OPENAI_API_KEY"] = "YOUR KEY"
 # Use Open AI api driver to integrate with any openai api compliant (such as text-gen etc..)
 os.environ["OPENAI_API_BASE"] = "http://127.0.0.1:5000/v1"
 
-llm = Ollama(model="mixtral:8x7b")
+llm = Ollama(model="gemma:7b")
 # llm=ChatOpenAI(model_name="gpt-3.5", temperature=0.7)
 
 search_tool = DuckDuckGoSearchRun()
@@ -19,7 +19,7 @@ researcher = Agent(
   role='Senior Research Analyst',
   goal='Uncover cutting-edge developments in AI and data science',
   backstory="""You work at a leading tech think tank.
-  Your expertise lies in identifying emerging trends.
+  Your expertise lies in identifying emerging trends using public internet.
   You have a knack for dissecting complex data and presenting
   actionable insights.""",
   verbose=True,
@@ -42,9 +42,10 @@ writer = Agent(
 task1 = Task(
   description="""Conduct a comprehensive analysis of the latest advancements in AI in 2024.
   Identify key trends, breakthrough technologies, and potential industry impacts.
+  Use the public internet to obtain information.
   Your final answer MUST be a full analysis report""",
   agent=researcher,
-  expected_output="Full analysis report in bullet points",
+  expected_output="Full analysis report",
 )
 
 task2 = Task(
@@ -61,7 +62,8 @@ task2 = Task(
 crew = Crew(
   agents=[researcher, writer],
   tasks=[task1, task2],
-  verbose=2,  # You can set it to 1 or 2 to different logging levels
+  full_output=True,
+  verbose=True,  # You can set it to 1 or 2 to different logging levels
   share_crew=False,  # share telemetry with crew ai team.
 )
 
