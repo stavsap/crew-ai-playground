@@ -5,6 +5,7 @@
 Install, recommended to use venv.
 
 ```shell
+python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 

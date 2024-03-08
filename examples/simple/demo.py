@@ -9,7 +9,8 @@ os.environ["OPENAI_API_KEY"] = "YOUR KEY"
 # Use Open AI api driver to integrate with any openai api compliant (such as text-gen etc..)
 os.environ["OPENAI_API_BASE"] = "http://127.0.0.1:5000/v1"
 
-ollama_llm = Ollama(model="llama2:13b-text-q8_0")
+llm = Ollama(model="mixtral:8x7b")
+# llm=ChatOpenAI(model_name="gpt-3.5", temperature=0.7)
 
 search_tool = DuckDuckGoSearchRun()
 
@@ -24,13 +25,7 @@ researcher = Agent(
   verbose=True,
   allow_delegation=False,
   tools=[search_tool],
-  # You can pass an optional llm attribute specifying what mode you wanna use.
-  # It can be a local model through Ollama / LM Studio or a remote
-  # model like OpenAI, Mistral, Antrophic of others (https://python.langchain.com/docs/integrations/llms/)
-  #
-  # Examples:
-  llm=ollama_llm
-  # llm=ChatOpenAI(model_name="gpt-3.5", temperature=0.7)
+  llm=llm
 )
 writer = Agent(
   role='Tech Content Strategist',
@@ -40,7 +35,7 @@ writer = Agent(
   You transform complex concepts into compelling narratives.""",
   verbose=True,
   allow_delegation=True,
-  llm=ollama_llm
+  llm=llm
 )
 
 # Create tasks for your agents
@@ -48,7 +43,8 @@ task1 = Task(
   description="""Conduct a comprehensive analysis of the latest advancements in AI in 2024.
   Identify key trends, breakthrough technologies, and potential industry impacts.
   Your final answer MUST be a full analysis report""",
-  agent=researcher
+  agent=researcher,
+  expected_output="Full analysis report in bullet points",
 )
 
 task2 = Task(
@@ -57,14 +53,16 @@ task2 = Task(
   Your post should be informative yet accessible, catering to a tech-savvy audience.
   Make it sound cool, avoid complex words so it doesn't sound like AI.
   Your final answer MUST be the full blog post of at least 4 paragraphs.""",
-  agent=writer
+  agent=writer,
+  expected_output="Full analysis report in bullet points",
 )
 
 # Instantiate your crew with a sequential process
 crew = Crew(
   agents=[researcher, writer],
   tasks=[task1, task2],
-  verbose=2, # You can set it to 1 or 2 to different logging levels
+  verbose=2,  # You can set it to 1 or 2 to different logging levels
+  share_crew=False,  # share telemetry with crew ai team.
 )
 
 # Get your crew to work!
